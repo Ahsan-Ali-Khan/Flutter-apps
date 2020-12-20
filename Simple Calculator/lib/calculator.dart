@@ -1,5 +1,5 @@
+import 'package:expression_language/expression_language.dart';
 import 'package:flutter/material.dart';
-import 'package:math_expressions/math_expressions.dart';
 class simpleCalculator extends StatefulWidget {
   @override
   _simpleCalculatorState createState() => _simpleCalculatorState();
@@ -30,11 +30,13 @@ class _simpleCalculatorState extends State<simpleCalculator> {
     expression=expression.replaceAll('÷', '/');
     expression=expression.replaceAll('x', '*');
     try{
-      Parser p =Parser(); //need math expression solver dependency in pubspec.yaml to implement this
-      Expression exp = p.parse(expression);
+      var expressionGrammarDefinition = ExpressionGrammarParser({});
+      var parser = expressionGrammarDefinition.build();
+      var result = parser.parse(expression);
+      var expression1 = result.value as Expression;
+      var value = expression1.evaluate();
+      _displayText="$value";
 
-      ContextModel cm = ContextModel();
-      _displayText='${exp.evaluate(EvaluationType.REAL, cm)}';//syntax = > exp.evaluate(type, context)
       if(_displayText.endsWith('.0')){
         _displayText=_displayText.replaceAll(".0","");
       }
