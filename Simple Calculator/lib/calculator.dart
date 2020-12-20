@@ -34,7 +34,13 @@ class _simpleCalculatorState extends State<simpleCalculator> {
       Expression exp = p.parse(expression);
 
       ContextModel cm = ContextModel();
-      _displayText='${exp.evaluate(EvaluationType.REAL, cm)}';  //syntax = > exp.evaluate(type, context)
+      _displayText='${exp.evaluate(EvaluationType.REAL, cm)}';//syntax = > exp.evaluate(type, context)
+      if(_displayText.endsWith('.0')){
+        _displayText=_displayText.replaceAll(".0","");
+      }
+      if(_displayText.contains("e-")){
+        _displayText=_displayText.replaceAll("e", " x 10^");
+      }
     }
     catch(e){
       _displayText="Error";
@@ -57,12 +63,18 @@ class _simpleCalculatorState extends State<simpleCalculator> {
     return(_displayText);
   }
 
+  String clearLastDigit(String buttonText){
+    print("clearLastDigit is called");
+    _displayText=_displayText.substring(0,_displayText.length-1);
+    return(_displayText);
+  }
+
   @override
   Widget build(BuildContext context) {
     Size deviceSize = MediaQuery.of(context).size;
 
 
-    Widget calcButton(String buttonText,Color color,Function fn){
+    Widget calcButton([String buttonText,Color color,Function fn,Function longPressFn]){
       return Container(
         color: color,
         child: MaterialButton(
@@ -73,13 +85,15 @@ class _simpleCalculatorState extends State<simpleCalculator> {
           onPressed: (){_displayText = fn(buttonText);
           print("$_displayText");
           setState(() {});},
+          onLongPress: (){_displayText=longPressFn(buttonText);
+          setState(() {});},
           child: Text(buttonText,style: TextStyle(color: Colors.white,fontSize: 24),),
           // padding: EdgeInsets.all(30),
         ),
       );
     }
     List buttons =[
-      [calcButton("C",Colors.black54,clearDisplay),calcButton("+/-",Colors.black54,signChange),calcButton("%",Colors.black54,operator),calcButton("÷",Colors.orangeAccent,operator)],
+      [calcButton("C",Colors.black54,clearLastDigit,clearDisplay),calcButton("+/-",Colors.black54,signChange),calcButton("%",Colors.black54,operator),calcButton("÷",Colors.orangeAccent,operator)],
       [calcButton("7",Colors.black45,operand),calcButton("8",Colors.black45,operand),calcButton("9",Colors.black45,operand),calcButton("x",Colors.orangeAccent,operator)],
       [calcButton("4",Colors.black45,operand),calcButton("5",Colors.black45,operand),calcButton("6",Colors.black45,operand),calcButton("-",Colors.orangeAccent,operator)],
       [calcButton("1",Colors.black45,operand),calcButton("2",Colors.black45,operand),calcButton("3",Colors.black45,operand),calcButton("+",Colors.orangeAccent,operator)],
@@ -102,8 +116,7 @@ class _simpleCalculatorState extends State<simpleCalculator> {
               height:deviceSize.height/6.9,
               color: Colors.black54,
               alignment: Alignment.bottomRight,
-              child:
-              Text(_displayText,style: TextStyle(fontSize: 48,),),
+              child:  SingleChildScrollView(child: Text(_displayText,style: TextStyle(fontSize: 48,) )),
             ),
           ),
 
