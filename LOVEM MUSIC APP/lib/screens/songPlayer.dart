@@ -46,7 +46,6 @@ class _SongPlayerState extends State<SongPlayer> {
             Row(
               mainAxisAlignment: MainAxisAlignment.center,
               children: [
-                // IconButton(icon: Icon(Icons.volume_off,size: 30,), onPressed: (){}),
                 IconButton(
                     icon: Icon(
                   !isPlaying?Icons.play_arrow:Icons.pause,
@@ -81,8 +80,6 @@ class _SongPlayerState extends State<SongPlayer> {
                     print("Failure in Stopping Song");
                   }
                 }),
-                // IconButton(icon: Icon(Icons.volume_up,size: 30,), onPressed: (){}),
-                // IconButton(icon: Icon(Icons.volume_down,size: 30,), onPressed: (){}),
               ],
             )
           ],
