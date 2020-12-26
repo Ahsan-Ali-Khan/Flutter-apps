@@ -60,9 +60,6 @@ class _loginScreenState extends State<loginScreen> {
                 SizedBox(
                   height: deviceSize.height * 0.05,
                 ),
-                // loginText("Or"),
-                // SizedBox(height: deviceSize.height * 0.05,),
-                // CustomLoginButton(GmailAuth.login,Constants.facebookLogo,"Facebook",isAuthenticate),
               ],
             ),
           )
@@ -99,9 +96,6 @@ class _loginScreenState extends State<loginScreen> {
                             SizedBox(
                               width: deviceSize.width * 0.05,
                             ),
-                            // loginText("Or"),
-                            // SizedBox(width: deviceSize.height * 0.05,),
-                            // CustomLoginButton(GmailAuth.login,Constants.facebookLogo,"FACEBOOK",isAuthenticate),
                           ],
                         ),
                       ],
